@@ -321,4 +321,10 @@ AUTOCRAFT는 비교적 단순한 구조이지만,
 
 와 같은 중요한 이미지 처리 아이디어를 모두 담고 있는 작은 실험 프로젝트입니다.
 
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
 
