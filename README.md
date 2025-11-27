@@ -169,9 +169,9 @@ http://127.0.0.1:5000/
    - 오른쪽: **Colored Result** – 자동 채색 결과 표시 + 다운로드 버튼
 
 
-```md
-<img width="1917" height="966" alt="Image" src="https://github.com/user-attachments/assets/433f21b0-eed4-4a7d-a646-93abf8e78eb2" />
-```
+
+<img width="1917" height="966" alt="Image" src="https://github.com/user-attachments/assets/66341f06-0b88-4ccb-8a41-0fe8c054146e" />
+
 
 ### 6.2. 가이드 없이 팔레트 기반 자동 채색
 
@@ -180,9 +180,10 @@ http://127.0.0.1:5000/
 3. **가이드 체크박스를 끈 상태**에서 `채색하기` 버튼을 누릅니다.
 4. 우측 결과 패널에 선택한 팔레트 색들이 층층이 적용된 결과가 표시됩니다.
 
-```md
-<img width="1862" height="958" alt="Image" src="https://github.com/user-attachments/assets/62cf7acb-cea3-4551-9658-3dd9bb81bbde" />
-```
+
+<img width="1862" height="958" alt="Image" src="https://github.com/user-attachments/assets/ef02e2a7-02e3-49dc-92d0-78f76fc0b06d" />
+
+
 
 ### 6.3. 가이드 색 기반 채색
 
@@ -192,9 +193,9 @@ http://127.0.0.1:5000/
 4. **가이드 체크박스를 켠 상태**에서 `채색하기` 버튼을 누릅니다.
 5. 서버에서는 동일 영역 안의 가이드 픽셀 색을 분석하여, 전체 영역을 해당 색으로 채웁니다.
 
-```md
+
 <img width="1871" height="957" alt="Image" src="https://github.com/user-attachments/assets/61fb77de-0ca1-4156-a5f3-b5df59975a65" />
-```
+
 
 ---
 
