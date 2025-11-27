@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>ChromaCraft Studio – 가이드 기반 자동 채색기</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top left, #fdfbff 0, #f0f2ff 40%, #f7f9fb 100%);
+            color: #111827;
+        }
+        .shell { display: flex; min-height: 100vh; }
+
+        /* 왼쪽 사이드바 */
+        .sidebar {
+            flex: 0 0 260px;
+            background: linear-gradient(180deg, #111827 0, #020617 100%);
+            color: #e5e7eb;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            box-shadow: 4px 0 24px rgba(15,23,42,0.4);
+        }
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .brand-icon {
+            width: 34px; height: 34px;
+            border-radius: 12px;
+            background: radial-gradient(circle at 20% 20%, #f97316, #ec4899 40%, #6366f1 90%);
+        }
+        .brand-text-main {
+            font-weight: 700; letter-spacing: .03em;
+            font-size: 14px; text-transform: uppercase;
+        }
+        .brand-text-sub {
+            font-size: 11px; color: #9ca3af;
+        }
+        .sidebar-section-title {
+            font-size: 13px; font-weight: 600;
+            margin-bottom: 6px; letter-spacing: .02em;
+            text-transform: uppercase; color: #9ca3af;
+        }
+        .field { margin-bottom: 16px; }
+        label { font-size: 13px; }
+        input[type="file"] {
+            margin-top: 8px; font-size: 12px; color: #e5e7eb;
+        }
+        select {
+            width: 100%; margin-top: 6px; padding: 6px 8px;
+            border-radius: 6px; border: 1px solid #4b5563;
+            background: #020617; color: #e5e7eb; font-size: 13px;
+        }
+        .checkbox-row {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 12px; color: #d1d5db; margin-top: 4px;
+        }
+        .primary-btn {
+            width: 100%; border: none; border-radius: 999px;
+            background: linear-gradient(90deg, #4f46e5, #ec4899);
+            color: #f9fafb; font-weight: 600; padding: 9px 0;
+            font-size: 14px; cursor: pointer; margin-top: 4px;
+        }
+        .primary-btn:disabled { opacity: 0.6; cursor: default; }
+        .loading-text {
+            margin-top: 8px; font-size: 12px; color: #fbbf24;
+        }
+        .error { margin-top: 8px; font-size: 12px; color: #fca5a5; }
+        .sidebar-footer {
+            margin-top: auto; font-size: 11px; color: #6b7280;
+        }
+
+        /* 메인 영역 */
+        .main {
+            flex: 1; padding: 24px 32px;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+        .main-header {
+            display: flex; justify-content: space-between; align-items: baseline;
+        }
+        .main-header h1 {
+            margin: 0; font-size: 22px; font-weight: 700;
+        }
+        .main-header .subtitle {
+            margin: 4px 0 0; font-size: 13px; color: #6b7280;
+        }
+        .preview-grid {
+            flex: 1; display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px; margin-top: 8px;
+        }
+        .panel {
+            background: rgba(255,255,255,0.9);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(15,23,42,0.12);
+            padding: 14px 16px 18px;
+            display: flex; flex-direction: column;
+        }
+        .panel-title {
+            font-size: 13px; font-weight: 600; color: #6b7280;
+            letter-spacing: .04em; text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .preview-frame {
+            flex: 1; border-radius: 12px;
+            border: 1px dashed #e5e7eb; background: #f9fafb;
+            display: flex; align-items: center; justify-content: center;
+            padding: 12px; position: relative;
+        }
+        .preview-frame img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+        }
+        .preview-placeholder {
+            font-size: 13px; color: #9ca3af; text-align: center;
+        }
+        .download-wrap {
+            margin-top: 10px; text-align: right;
+        }
+        .download-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 14px; border-radius: 999px;
+            background: #111827; color: #f9fafb;
+            font-size: 13px; text-decoration: none;
+        }
+        .download-btn span { font-size: 15px; }
+
+        @media (max-width: 900px) {
+            .shell { flex-direction: column; }
+            .sidebar {
+                flex: 0 0 auto;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <!-- 왼쪽 사이드바 -->
+    <aside class="sidebar">
+        <div>
+            <div class="brand">
+                <div class="brand-icon"></div>
+                <div>
+                    <div class="brand-text-main">AUTOCRAFT</div>
+                    <div class="brand-text-sub">Guide-based Auto Coloring</div>
+                </div>
+            </div>
+
+            <form id="color-form" method="post" enctype="multipart/form-data" style="margin-top:24px;">
+                <!-- 파일 업로드 -->
+                <div class="field">
+                    <div class="sidebar-section-title">Artwork</div>
+                    <label>
+                        선화 / 가이드 이미지
+                        <input type="file" name="image" id="image-input" accept="image/*" required />
+                    </label>
+                </div>
+
+                <!-- 팔레트 선택 -->
+                <div class="field">
+                    <div class="sidebar-section-title">Palette</div>
+                    <label for="palette">팔레트 선택</label>
+                    <select id="palette" name="palette">
+                        <option value="warm_pastel">기본 팔레트 (따뜻한 파스텔)</option>
+                        <option value="cool_pastel">쿨 팔레트 (차가운 파스텔)</option>
+                        <option value="vivid_pastel">비비드 파스텔</option>
+                        <option value="soft">소프트 뉴트럴</option>
+                        <option value="retro">레트로 빈티지</option>
+                        <option value="neon">네온 팝 (형광)</option>
+                        <option value="oriental_ink">동양 먹색 (묵톤)</option>
+                        <option value="pokemon">포켓몬풍</option>
+                        <option value="choco_cream">초콜릿 & 크림</option>
+                        <option value="sunny">선셋 / 햇살 하이키</option>
+                        <option value="pastel_rainbow">무지개 파스텔</option>
+                        <option value="forest_pastel">포레스트 파스텔 (자연)</option>
+                    </select>
+                </div>
+
+                <!-- 가이드 사용 여부 -->
+                <div class="field">
+                    <div class="sidebar-section-title">Guide</div>
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="use_guide" name="use_guide" value="1" />
+                        <label for="use_guide">선화 위에 찍은 가이드 색을 기준으로 채색하기</label>
+                    </div>
+                </div>
+
+                <!-- 버튼 + 로딩 -->
+                <div class="field">
+                    <button id="submit-btn" type="submit" class="primary-btn">채색하기</button>
+                    <div id="loading-text" class="loading-text" style="display:none;">
+                        ⏳ 채색 중입니다… 잠시만 기다려 주세요!
+                    </div>
+                </div>
+
+                {% if error %}
+                <div class="error">{{ error }}</div>
+                {% endif %}
+            </form>
+        </div>
+    </aside>
+
+    <!-- 메인 프리뷰 영역 -->
+    <main class="main">
+        <header class="main-header">
+            <div>
+                <h1>가이드 기반 자동 채색기</h1>
+                <p class="subtitle">
+                    왼쪽에 선화를 업로드하고, 팔레트를 선택한 뒤 채색하기를 눌러보세요.<br>
+                    가운데에는 <b>원본/가이드</b>, 오른쪽에는 <b>자동 채색 결과</b>가 표시됩니다.
+                </p>
+            </div>
+        </header>
+
+        <section class="preview-grid">
+            <!-- 원본 프리뷰 -->
+            <div class="panel">
+                <div class="panel-title">Original / Guide</div>
+                <div class="preview-frame">
+                    <img id="original-preview"
+                         src="{% if original_image %}{{ original_image }}{% endif %}"
+                         alt="원본 이미지"
+                         style="{% if original_image %}display:block;{% else %}display:none;{% endif %}" />
+                    <div id="original-placeholder" class="preview-placeholder"
+                         style="{% if original_image %}display:none;{% else %}display:block;{% endif %}">
+                        아직 업로드된 이미지가 없습니다.<br>
+                        왼쪽에서 선화 이미지를 선택해 주세요.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 채색 결과 프리뷰 -->
+            <div class="panel">
+                <div class="panel-title">Colored Result</div>
+                <div class="preview-frame">
+                    {% if result_image %}
+                        <img src="{{ result_image }}" alt="결과 이미지" />
+                    {% else %}
+                        <div class="preview-placeholder">
+                            채색 결과가 여기에 표시됩니다.<br>
+                            이미지와 옵션을 선택한 뒤 ‘채색하기’를 눌러 주세요.
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if result_image %}
+                <div class="download-wrap">
+                    <a href="{{ result_image }}" download="auto_color_result.png" class="download-btn">
+                        <span>⬇</span> 이미지 다운로드
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+</div>
+
+<script>
+    // 채색 중 표시 & 버튼 비활성화
+    const form = document.getElementById("color-form");
+    const loadingText = document.getElementById("loading-text");
+    const submitBtn = document.getElementById("submit-btn");
+    const fileInput = document.getElementById("image-input");
+    const originalImg = document.getElementById("original-preview");
+    const originalPlaceholder = document.getElementById("original-placeholder");
+
+    if (form) {
+        form.addEventListener("submit", function () {
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = "채색 중...";
+            }
+            if (loadingText) {
+                loadingText.style.display = "block";
+            }
+        });
+    }
+
+    // 파일 선택 즉시 왼쪽 프리뷰 업데이트
+    if (fileInput && originalImg && originalPlaceholder) {
+        fileInput.addEventListener("change", function (e) {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+
+            const url = URL.createObjectURL(file);
+            originalImg.src = url;
+            originalImg.style.display = "block";
+            originalPlaceholder.style.display = "none";
+        });
+    }
+</script>
+</body>
+</html>
