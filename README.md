@@ -123,24 +123,34 @@ http://127.0.0.1:5000/
 ```
 ### 5.4. Anaconda 환경에서 실행하기 (선택)
 
-# Anaconda Prompt에서 아래 명령어를 순서대로 실행하면
-# AUTOCRAFT 서버를 실행할 수 있습니다.
+ Anaconda Prompt에서 아래 명령어를 순서대로 실행하면
+AUTOCRAFT 서버를 실행할 수 있습니다.
 
-# 1) 프로젝트 폴더로 이동
+1) 프로젝트 폴더로 이동
+```bash
 cd 경로\autocraft
+```
 
-# 2) (선택) 가상환경 생성 및 활성화
+2) (선택) 가상환경 생성 및 활성화
+```bash
 conda create -n autocraft python=3.10 -y
 conda activate autocraft
+```
 
-# 3) 필요한 라이브러리 설치
+3) 필요한 라이브러리 설치
+```bash
 pip install flask pillow numpy
+```
 
-# 4) 서버 실행
+4) 서버 실행
+```bash
 python app.py
+```
 
-# 실행 후 아래 주소로 접속하여 AUTOCRAFT를 사용할 수 있습니다.
-# http://127.0.0.1:5000/
+실행 후 아래 주소로 접속하여 AUTOCRAFT를 사용할 수 있습니다.
+```text
+http://127.0.0.1:5000/
+```
 
 ---
 
@@ -160,7 +170,7 @@ python app.py
 
 
 ```md
-![기본 페이지](./main.png)
+<img width="1917" height="966" alt="Image" src="https://github.com/user-attachments/assets/433f21b0-eed4-4a7d-a646-93abf8e78eb2" />
 ```
 
 ### 6.2. 가이드 없이 팔레트 기반 자동 채색
@@ -171,7 +181,7 @@ python app.py
 4. 우측 결과 패널에 선택한 팔레트 색들이 층층이 적용된 결과가 표시됩니다.
 
 ```md
-![팔레트 기반 자동 채색 (가이드 없음)](./noguide.png)
+<img width="1862" height="958" alt="Image" src="https://github.com/user-attachments/assets/62cf7acb-cea3-4551-9658-3dd9bb81bbde" />
 ```
 
 ### 6.3. 가이드 색 기반 채색
@@ -183,7 +193,7 @@ python app.py
 5. 서버에서는 동일 영역 안의 가이드 픽셀 색을 분석하여, 전체 영역을 해당 색으로 채웁니다.
 
 ```md
-![가이드 기반 자동 채색](./guide.png)
+<img width="1871" height="957" alt="Image" src="https://github.com/user-attachments/assets/61fb77de-0ca1-4156-a5f3-b5df59975a65" />
 ```
 
 ---
